@@ -23,8 +23,17 @@ function newHashMap() {
     if (buckets[hashCode] === undefined) newBucket(hashCode);
 
     const bucket = buckets[hashCode];
+    let sameKeyFound = false;
 
-    bucket.append({ key, value });
+    for (let i = 0; i < bucket.size(); i++) {
+      const currentElem = bucket.at(i);
+      if (currentElem.key === key) {
+        currentElem.value = value;
+        sameKeyFound = true;
+        break;
+      }
+    }
+    if (!sameKeyFound) bucket.append({ key, value });
   }
 
   function newBucket(index) {
@@ -38,11 +47,14 @@ function newHashMap() {
 
   return {
     set,
+    buckets,
   };
 }
 
 const hashMap = newHashMap();
 
-hashMap.set("Ivan", "Matusevich");
-
-const list = LinkedList();
+hashMap.set("Rama", "Matusevich");
+hashMap.set("Rama", "Matuseaasdasdvich");
+hashMap.set("Sita", "Hernandez");
+console.log(hashMap.buckets[3].at(0));
+console.log(hashMap.buckets[3].at(1));
