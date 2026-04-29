@@ -1,6 +1,10 @@
+import { LinkedList } from "./linkedList.js";
+
 function newHashMap() {
-  const capacity = 16;
+  let capacity = 16;
   const loadFactor = 0.75;
+
+  const buckets = [];
 
   function hash(key) {
     let hashCode = 0;
@@ -13,11 +17,32 @@ function newHashMap() {
     return hashCode;
   }
 
+  function set(key, value) {
+    const hashCode = hash(key);
+
+    if (buckets[hashCode] === undefined) newBucket(hashCode);
+
+    const bucket = buckets[hashCode];
+
+    bucket.append({ key, value });
+  }
+
+  function newBucket(index) {
+    if (index < 0 || index >= capacity) {
+      throw new Error("Trying to access index out of bounds");
+    }
+
+    const list = LinkedList();
+    buckets[index] = list;
+  }
+
   return {
-    hash,
+    set,
   };
 }
 
 const hashMap = newHashMap();
 
-console.log(hashMap.hash("abcdefghi"));
+hashMap.set("Ivan", "Matusevich");
+
+const list = LinkedList();
