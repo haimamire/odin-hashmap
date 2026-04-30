@@ -63,9 +63,23 @@ export function HashMap() {
     return valueFound;
   }
 
+  function has(key) {
+    const hashCode = hash(key);
+    if (buckets[hashCode] === undefined) return false;
+
+    const bucket = buckets[hashCode];
+
+    for (let i = 0; i < bucket.size(); i++) {
+      const currentElem = bucket.at(i);
+      if (currentElem.key === key) return true;
+    }
+    return false;
+  }
+
   return {
     set,
     get,
+    has,
     buckets,
   };
 }
