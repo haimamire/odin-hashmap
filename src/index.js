@@ -1,6 +1,6 @@
 import { LinkedList } from "./linkedList.js";
 
-function newHashMap() {
+export function HashMap() {
   let capacity = 16;
   const loadFactor = 0.75;
 
@@ -20,7 +20,7 @@ function newHashMap() {
   function set(key, value) {
     const hashCode = hash(key);
 
-    if (buckets[hashCode] === undefined) newBucket(hashCode);
+    if (buckets[hashCode] === undefined) _newBucket(hashCode);
 
     const bucket = buckets[hashCode];
     let sameKeyFound = false;
@@ -36,7 +36,7 @@ function newHashMap() {
     if (!sameKeyFound) bucket.append({ key, value });
   }
 
-  function newBucket(index) {
+  function _newBucket(index) {
     if (index < 0 || index >= capacity) {
       throw new Error("Trying to access index out of bounds");
     }
@@ -45,16 +45,35 @@ function newHashMap() {
     buckets[index] = list;
   }
 
+  function get(key) {
+    let valueFound = null;
+    const hashCode = hash(key);
+
+    if (buckets[hashCode] === undefined) return valueFound;
+
+    const bucket = buckets[hashCode];
+
+    for (let i = 0; i < bucket.size(); i++) {
+      const currentElem = bucket.at(i);
+      if (currentElem.key === key) {
+        valueFound = currentElem.value;
+        break;
+      }
+    }
+    return valueFound;
+  }
+
   return {
     set,
+    get,
     buckets,
   };
 }
 
-const hashMap = newHashMap();
+const hashMap = HashMap();
 
 hashMap.set("Rama", "Matusevich");
 hashMap.set("Rama", "Matuseaasdasdvich");
 hashMap.set("Sita", "Hernandez");
-console.log(hashMap.buckets[3].at(0));
-console.log(hashMap.buckets[3].at(1));
+// console.log(hashMap.buckets[3].at(0));
+// console.log(hashMap.buckets[3].at(1));
