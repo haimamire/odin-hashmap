@@ -7,6 +7,8 @@ export function HashMap() {
   const buckets = [];
 
   function hash(key) {
+    if (typeof key !== 'string') throw Error("Keys must only be strings!");
+
     let hashCode = 0;
 
     const primeNumber = 31;
