@@ -83,11 +83,21 @@ export function HashMap() {
     } else return false;
   }
 
+  function length() {
+    let length = 0;
+    for (let bucket of buckets) {
+      if (bucket === undefined) continue;
+      length += bucket.size();
+    }
+    return length;
+  }
+
   return {
     set,
     get,
     has,
     remove,
+    length,
     buckets,
   };
 }

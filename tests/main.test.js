@@ -4,6 +4,7 @@ describe("hashMap", () => {
   const hashMap = HashMap();
   hashMap.set("Rama", "Matusevich");
   hashMap.set("Sita", "Hernandez");
+  hashMap.set("Rodrigo", "Coso");
 
   test("should reject keys that are not strings", () => {
     expect(() => hashMap.set()).toThrow();
@@ -32,5 +33,13 @@ describe("hashMap", () => {
     expect(hashMap.has("Rama")).toBeFalsy();
 
     expect(hashMap.remove("")).toBeFalsy();
+    hashMap.set("Rama", "Matusevich");
+  });
+  test("should return the length of the hash map", () => {
+    expect(hashMap.length()).toBe(3);
+    hashMap.remove("Rama");
+    hashMap.remove("Sita");
+    hashMap.remove("Rodrigo");
+    expect(hashMap.length()).toBe(0);
   });
 });
