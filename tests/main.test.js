@@ -47,4 +47,15 @@ describe("hashMap", () => {
     expect(hashMap.get("Rama")).toBeNull();
     expect(hashMap.has("Rama")).toBeFalsy();
   });
+  test("should return the keys", () => {
+    expect(hashMap.keys().sort()).toEqual(["Rodrigo", "Rama", "Sita"].sort());
+
+    hashMap.set("Mario", "Sandoval");
+    expect(hashMap.keys().sort()).toEqual(
+      ["Rodrigo", "Rama", "Sita", "Mario"].sort(),
+    );
+
+    hashMap.clear();
+    expect(hashMap.keys()).toEqual([]);
+  });
 });
