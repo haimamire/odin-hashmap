@@ -54,7 +54,8 @@ export function HashMap() {
     const bucket = buckets[hashCode];
     const matchingKey = _getMatchingKey(key, bucket);
 
-    return matchingKey.value ?? null;
+    if (matchingKey === null) return matchingKey;
+    else return matchingKey.value;
   }
 
   function has(key) {
@@ -62,13 +63,31 @@ export function HashMap() {
     if (buckets[hashCode] === undefined) return false;
     const bucket = buckets[hashCode];
 
-    return typeof _getMatchingKey(key, bucket) === "object" ? true : false;
+    if (_getMatchingKey(key, bucket) === null) return false;
+    else return true;
+  }
+
+  function remove(key) {
+    const hashCode = hash(key);
+    if (buckets[hashCode] === undefined) return false;
+    const bucket = buckets[hashCode];
+
+    if (has(key)) {
+      for (let i = 0; i < bucket.size(); i++) {
+        const currentElem = bucket.at(i);
+        if (currentElem.key === key) {
+          bucket.removeAt(i);
+          return true;
+        }
+      }
+    } else return false;
   }
 
   return {
     set,
     get,
     has,
+    remove,
     buckets,
   };
 }
@@ -78,5 +97,6 @@ const hashMap = HashMap();
 hashMap.set("Rama", "Matusevich");
 hashMap.set("Rama", "Matuseaasdasdvich");
 hashMap.set("Sita", "Hernandez");
-// console.log(hashMap.buckets[3].at(0));
-// console.log(hashMap.buckets[3].at(1));
+hashMap.remove("Rama");
+console.log(hashMap.buckets[3].at(0));
+console.log(hashMap.buckets[3].at(1));

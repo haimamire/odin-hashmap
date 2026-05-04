@@ -26,4 +26,11 @@ describe("hashMap", () => {
     expect(hashMap.has("Sita")).toBeTruthy();
     expect(hashMap.has("a")).toBeFalsy();
   });
+  test("should remove a value", () => {
+    expect(hashMap.remove("Rama")).toBeTruthy();
+    expect(hashMap.get("Rama")).toBeNull();
+    expect(hashMap.has("Rama")).toBeFalsy();
+
+    expect(hashMap.remove("")).toBeFalsy();
+  });
 });
