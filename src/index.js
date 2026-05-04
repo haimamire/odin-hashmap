@@ -108,6 +108,32 @@ export function HashMap() {
     return keys;
   }
 
+  function values() {
+    const values = [];
+    for (let bucket of buckets) {
+      if (bucket === undefined) continue;
+      for (let i = 0; i < bucket.size(); i++) {
+        const value = bucket.at(i).value;
+        values.push(value);
+      }
+    }
+    return values;
+  }
+
+  function entries() {
+    const entries = [];
+    for (let bucket of buckets) {
+      if (bucket === undefined) continue;
+      for (let i = 0; i < bucket.size(); i++) {
+        const entry = [];
+        entry.push(bucket.at(i).key);
+        entry.push(bucket.at(i).value);
+        entries.push(entry);
+      }
+    }
+    return entries;
+  }
+
   return {
     set,
     get,
@@ -116,6 +142,8 @@ export function HashMap() {
     length,
     clear,
     keys,
+    values,
+    entries,
     buckets,
   };
 }

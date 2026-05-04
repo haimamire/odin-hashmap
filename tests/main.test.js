@@ -58,4 +58,39 @@ describe("hashMap", () => {
     hashMap.clear();
     expect(hashMap.keys()).toEqual([]);
   });
+  test("should return the values", () => {
+    expect(hashMap.values().sort()).toEqual(
+      ["Matusevich", "Hernandez", "Coso"].sort(),
+    );
+
+    hashMap.set("Mario", "Sandoval");
+    expect(hashMap.values().sort()).toEqual(
+      ["Matusevich", "Hernandez", "Coso", "Sandoval"].sort(),
+    );
+
+    hashMap.clear();
+    expect(hashMap.values()).toEqual([]);
+  });
+  test("should return the entries", () => {
+    expect(hashMap.entries().sort()).toEqual(
+      [
+        ["Rama", "Matusevich"],
+        ["Sita", "Hernandez"],
+        ["Rodrigo", "Coso"],
+      ].sort(),
+    );
+
+    hashMap.set("Mario", "Sandoval");
+    expect(hashMap.entries().sort()).toEqual(
+      [
+        ["Rama", "Matusevich"],
+        ["Sita", "Hernandez"],
+        ["Rodrigo", "Coso"],
+        ["Mario", "Sandoval"],
+      ].sort(),
+    );
+
+    hashMap.clear();
+    expect(hashMap.entries()).toEqual([]);
+  });
 });
