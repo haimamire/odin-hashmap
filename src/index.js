@@ -4,7 +4,7 @@ export function HashMap() {
   let capacity = 16;
   const loadFactor = 0.75;
 
-  const buckets = [];
+  let buckets = [];
 
   function hash(key) {
     if (typeof key !== "string") throw Error("Keys must only be strings!");
@@ -92,12 +92,17 @@ export function HashMap() {
     return length;
   }
 
+  function clear() {
+    buckets.length = 0;
+  }
+
   return {
     set,
     get,
     has,
     remove,
     length,
+    clear,
     buckets,
   };
 }
