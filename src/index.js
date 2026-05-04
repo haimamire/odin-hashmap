@@ -97,38 +97,34 @@ export function HashMap() {
   }
 
   function keys() {
-    const keys = [];
-    for (let bucket of buckets) {
-      if (bucket === undefined) continue;
-      for (let i = 0; i < bucket.size(); i++) {
-        const key = bucket.at(i).key;
-        keys.push(key);
-      }
-    }
-    return keys;
+    return _getAllEntries(true, false);
   }
 
   function values() {
-    const values = [];
-    for (let bucket of buckets) {
-      if (bucket === undefined) continue;
-      for (let i = 0; i < bucket.size(); i++) {
-        const value = bucket.at(i).value;
-        values.push(value);
-      }
-    }
-    return values;
+    return _getAllEntries(false, true);
   }
 
   function entries() {
+    return _getAllEntries(true, true);
+  }
+
+  function _getAllEntries(writeKey, writeValue) {
     const entries = [];
     for (let bucket of buckets) {
       if (bucket === undefined) continue;
       for (let i = 0; i < bucket.size(); i++) {
-        const entry = [];
-        entry.push(bucket.at(i).key);
-        entry.push(bucket.at(i).value);
-        entries.push(entry);
+        if (writeKey && writeValue) {
+          const entry = [];
+          entry.push(bucket.at(i).key);
+          entry.push(bucket.at(i).value);
+          entries.push(entry);
+        } else if (writeKey) {
+          const key = bucket.at(i).key;
+          entries.push(key);
+        } else if (writeValue) {
+          const value = bucket.at(i).value;
+          entries.push(value);
+        } else throw new Error("No output specified.");
       }
     }
     return entries;
@@ -153,6 +149,5 @@ const hashMap = HashMap();
 hashMap.set("Rama", "Matusevich");
 hashMap.set("Rama", "Matuseaasdasdvich");
 hashMap.set("Sita", "Hernandez");
-hashMap.remove("Rama");
 console.log(hashMap.buckets[3].at(0));
 console.log(hashMap.buckets[3].at(1));
