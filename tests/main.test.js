@@ -93,4 +93,51 @@ describe("hashMap", () => {
     hashMap.clear();
     expect(hashMap.entries()).toEqual([]);
   });
+  test("should work fine even after exceeding its load factor", () => {
+    hashMap.set("apple", "red");
+    hashMap.set("banana", "yellow");
+    hashMap.set("carrot", "orange");
+    hashMap.set("dog", "brown");
+    hashMap.set("elephant", "gray");
+    hashMap.set("frog", "green");
+    hashMap.set("grape", "purple");
+    hashMap.set("hat", "black");
+    hashMap.set("ice cream", "white");
+    hashMap.set("jacket", "blue");
+    hashMap.set("kite", "pink");
+    hashMap.set("lion", "golden");
+
+    expect(hashMap.length()).toBe(15);
+    expect(hashMap.has("Rodrigo")).toBeTruthy();
+    expect(hashMap.get("Rama")).toBe("Matusevich");
+    expect(hashMap.has("grape")).toBeTruthy();
+    expect(hashMap.remove("")).toBeFalsy();
+    expect(hashMap.has("Grape")).toBeFalsy();
+
+    expect(hashMap.entries().sort()).toEqual(
+      [
+        ["Rama", "Matusevich"],
+        ["Sita", "Hernandez"],
+        ["Rodrigo", "Coso"],
+        ["apple", "red"],
+        ["banana", "yellow"],
+        ["carrot", "orange"],
+        ["dog", "brown"],
+        ["elephant", "gray"],
+        ["frog", "green"],
+        ["grape", "purple"],
+        ["hat", "black"],
+        ["ice cream", "white"],
+        ["jacket", "blue"],
+        ["kite", "pink"],
+        ["lion", "golden"],
+      ].sort(),
+    );
+
+    hashMap.remove("frog");
+    expect(hashMap.has("frog")).toBeFalsy();
+
+    hashMap.set("Rama", "asdfasfasdfasdfasfsd");
+    expect(hashMap.get("Rama")).toBe("asdfasfasdfasdfasfsd");
+  });
 });
