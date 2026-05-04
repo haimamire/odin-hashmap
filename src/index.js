@@ -21,21 +21,13 @@ export function HashMap() {
 
   function set(key, value) {
     const hashCode = hash(key);
-
     if (buckets[hashCode] === undefined) _newBucket(hashCode);
 
     const bucket = buckets[hashCode];
-    let sameKeyFound = false;
+    let matchingKey = _getMatchingKey(key, bucket);
 
-    for (let i = 0; i < bucket.size(); i++) {
-      const currentElem = bucket.at(i);
-      if (currentElem.key === key) {
-        currentElem.value = value;
-        sameKeyFound = true;
-        break;
-      }
-    }
-    if (!sameKeyFound) bucket.append({ key, value });
+    if (matchingKey === null) bucket.append({ key, value });
+    else matchingKey.value = value;
   }
 
   function _newBucket(index) {
@@ -47,35 +39,30 @@ export function HashMap() {
     buckets[index] = list;
   }
 
-  function get(key) {
-    let valueFound = null;
-    const hashCode = hash(key);
-
-    if (buckets[hashCode] === undefined) return valueFound;
-
-    const bucket = buckets[hashCode];
-
+  function _getMatchingKey(key, bucket) {
     for (let i = 0; i < bucket.size(); i++) {
       const currentElem = bucket.at(i);
-      if (currentElem.key === key) {
-        valueFound = currentElem.value;
-        break;
-      }
+      if (currentElem.key === key) return currentElem;
     }
-    return valueFound;
+    return null;
+  }
+
+  function get(key) {
+    const hashCode = hash(key);
+    if (buckets[hashCode] === undefined) return null;
+
+    const bucket = buckets[hashCode];
+    const matchingKey = _getMatchingKey(key, bucket);
+
+    return matchingKey.value ?? null;
   }
 
   function has(key) {
     const hashCode = hash(key);
     if (buckets[hashCode] === undefined) return false;
-
     const bucket = buckets[hashCode];
 
-    for (let i = 0; i < bucket.size(); i++) {
-      const currentElem = bucket.at(i);
-      if (currentElem.key === key) return true;
-    }
-    return false;
+    return typeof _getMatchingKey(key, bucket) === "object" ? true : false;
   }
 
   return {
